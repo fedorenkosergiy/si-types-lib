@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiTypesLib", "SiTypesLib\SiTypesLib.csproj", "{46C13AD9-55E3-4C25-AB00-3FFD15F73BD9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiTypesLibTests", "SiTypesLibTests\SiTypesLibTests.csproj", "{0C3256A4-E66F-4461-94F5-22B43AE66E9B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{46C13AD9-55E3-4C25-AB00-3FFD15F73BD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46C13AD9-55E3-4C25-AB00-3FFD15F73BD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46C13AD9-55E3-4C25-AB00-3FFD15F73BD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46C13AD9-55E3-4C25-AB00-3FFD15F73BD9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C3256A4-E66F-4461-94F5-22B43AE66E9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C3256A4-E66F-4461-94F5-22B43AE66E9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C3256A4-E66F-4461-94F5-22B43AE66E9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C3256A4-E66F-4461-94F5-22B43AE66E9B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
