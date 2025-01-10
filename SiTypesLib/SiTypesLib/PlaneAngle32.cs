@@ -13,10 +13,16 @@ namespace SiTypesLib
 		
 		public static PlaneAngle32 FromDegrees(int degrees)
 		{
-			int totalSeconds = degrees * ArcSecondsPerDegree;
+			int lessThenATurn = FilterOutExtraTurnsFromDegrees(degrees);
+			int totalSeconds = lessThenATurn * ArcSecondsPerDegree;
 			int raw = totalSeconds * OneArcSecondRaw;
 			return new PlaneAngle32 { _raw = raw };
 		}
-		
+
+		private static int FilterOutExtraTurnsFromDegrees(int degrees)
+		{
+			int lessThenATurn = degrees % DegreesPerTurn;
+			return lessThenATurn < 0 ? lessThenATurn + DegreesPerTurn : lessThenATurn;
+		}
 	}
 }
