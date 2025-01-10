@@ -1,0 +1,6 @@
+SiTypesLib/.idea/
+SiTypesLib/SiTypesLib/bin/
+SiTypesLib/SiTypesLib/obj/
+SiTypesLib/SiTypesLibTests/bin/
+SiTypesLib/SiTypesLibTests/obj/
+SiTypesLib/*.user
