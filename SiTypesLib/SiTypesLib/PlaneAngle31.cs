@@ -37,6 +37,11 @@ namespace SiTypesLib
 			return new PlaneAngle31 { _raw = arcSeconds * OneArcSecondRaw };
 		}
 
+		public override string ToString()
+		{
+			return _raw.ToString();
+		}
+
 		private static int FilterOutExtraTurnsFromDegrees(int degrees)
 		{
 			int lessThenATurn = degrees % DegreesPerTurn;
@@ -61,6 +66,29 @@ namespace SiTypesLib
 			if (raw < 0) raw += OneTurnRaw;
 
 			return new PlaneAngle31 { _raw = raw % OneTurnRaw };
+		}
+
+		public static PlaneAngle31 operator -(PlaneAngle31 a, PlaneAngle31 b)
+		{
+			int raw = a._raw - b._raw;
+			if (raw < 0) raw += OneTurnRaw;
+
+			return new PlaneAngle31 { _raw = raw };
+		}
+
+		public static PlaneAngle31 operator -(PlaneAngle31 angle)
+		{
+			int raw = -angle._raw + OneTurnRaw;
+			
+			return new PlaneAngle31 { _raw = raw % OneTurnRaw};
+		}
+		
+		public static int operator /(PlaneAngle31 a, PlaneAngle31 b) => a._raw / b._raw;
+		public static PlaneAngle31 operator /(PlaneAngle31 a, int b)
+		{
+			const string msg = "An angle can not be divided by a non positive number";
+			if (b <= 0) throw new ArgumentException(msg, nameof(b));
+			return new PlaneAngle31 { _raw = a._raw / b };
 		}
 	}
 }

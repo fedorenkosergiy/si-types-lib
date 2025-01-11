@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System;
 
 namespace SiTypesLib
 {
@@ -128,6 +129,83 @@ namespace SiTypesLib
 			Assert.AreEqual(expected, alsoSum);
 			Assert.Zero(sum.ArcMinutes);
 			Assert.Zero(sum.ArcSeconds);
+		}
+
+		[TestCase(0, 0, 0)]
+		[TestCase(10, 0, 10)]
+		[TestCase(10, 2, 8)]
+		[TestCase(2, 10, 352)]
+		[TestCase(0, 180, 180)]
+		public void Diff(int degreesA, int degreesB, int degreesExpected)
+		{
+			PlaneAngle31 a = PlaneAngle31.FromDegrees(degreesA);
+			PlaneAngle31 b = PlaneAngle31.FromDegrees(degreesB);
+			PlaneAngle31 expected = PlaneAngle31.FromDegrees(degreesExpected);
+			PlaneAngle31 diff = a - b;
+			Assert.AreEqual(expected, diff);
+			Assert.Zero(diff.ArcMinutes);
+			Assert.Zero(diff.ArcSeconds);
+		}
+
+		[TestCase(0, 0)]
+		[TestCase(10, 350)]
+		[TestCase(180, 180)]
+		public void Negation(int degrees, int degreesExpected)
+		{
+			PlaneAngle31 actual = -PlaneAngle31.FromDegrees(degrees);
+			PlaneAngle31 expected = PlaneAngle31.FromDegrees(degreesExpected);
+			Assert.AreEqual(expected, actual);
+			Assert.Zero(actual.ArcMinutes);
+			Assert.Zero(actual.ArcSeconds);
+		}
+
+		[TestCase(0, 1, 0, 0, 0)]
+		[TestCase(10, 2, 5, 0, 0)]
+		[TestCase(10, 4, 2, 30, 0)]
+		[TestCase(10, 8, 1, 15, 0)]
+		[TestCase(10, 16, 0, 37, 30)]
+		[TestCase(10, 32, 0, 18, 45)]
+		[TestCase(10, 64, 0, 9, 22)]
+		[TestCase(10, 10, 1, 0, 0)]
+		public void Division(int degreesA, int b, int degreesExpected, int minutesExpected, int secondsExpected)
+		{
+			PlaneAngle31 a = PlaneAngle31.FromDegrees(degreesA);
+			PlaneAngle31 div = a / b;
+			Assert.AreEqual(degreesExpected, div.Degrees);
+			Assert.AreEqual(minutesExpected, div.ArcMinutes);
+			Assert.AreEqual(secondsExpected, div.ArcSeconds);
+		}
+
+		[TestCase(0, 1, 0)]
+		[TestCase(10, 2, 5)]
+		[TestCase(10, 2, 5)]
+		[TestCase(10, 4, 2)]
+		[TestCase(10, 8, 1)]
+		[TestCase(10, 10, 1)]
+		public void Division(int degreesA, int degreesB, int expected)
+		{
+			PlaneAngle31 a = PlaneAngle31.FromDegrees(degreesA);
+			PlaneAngle31 b = PlaneAngle31.FromDegrees(degreesB);
+			int div = a / b;
+			Assert.AreEqual(expected, div);
+		}
+
+		[Test]
+		[TestCase(10, 0)]
+		public void DivisionByNotPositiveLeadsToException([Random(0, 359, 10)] int degreesA,
+			[Random(int.MinValue, 0, 10)] int notPositiveB)
+		{
+			PlaneAngle31 a = PlaneAngle31.FromDegrees(degreesA);
+			ArgumentException? e = Assert.Throws<ArgumentException>(() => _ = a / notPositiveB);
+			Assert.AreEqual("b", e?.ParamName);
+		}
+		
+		[Test]
+		public void DivideByZero()
+		{
+			PlaneAngle31 a = PlaneAngle31.FromDegrees(10);
+			PlaneAngle31 b = PlaneAngle31.FromDegrees(0);
+			DivideByZeroException? e = Assert.Throws<DivideByZeroException>(() => _ = a / b);
 		}
 	}
 }
