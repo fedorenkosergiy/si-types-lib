@@ -2,7 +2,7 @@
 
 namespace SiTypesLib
 {
-	public struct PlaneAngle32
+	public struct PlaneAngle31
 	{
 		private const int OneArcSecondRaw = int.MaxValue / ArcSecondsPerTurn;
 		private const int OneArcMinuteRaw = OneArcSecondRaw * ArcSecondsPerArcMinute;
@@ -14,17 +14,17 @@ namespace SiTypesLib
 
 		public int ArcMinutes => _raw / OneArcMinuteRaw % ArcMinutesPerDegree;
 
-		public static PlaneAngle32 FromDegrees(int value)
+		public static PlaneAngle31 FromDegrees(int value)
 		{
 			int degrees = FilterOutExtraTurnsFromDegrees(value);
-			return new PlaneAngle32 { _raw = degrees * OneDegreeRaw };
+			return new PlaneAngle31 { _raw = degrees * OneDegreeRaw };
 		}
 
 
-		public static PlaneAngle32 FromArcMinutes(int value)
+		public static PlaneAngle31 FromArcMinutes(int value)
 		{
 			int arcMinutes = FilterOutExtraTurnsFromArcMinutes(value);
-			return new PlaneAngle32 { _raw = arcMinutes * OneArcMinuteRaw };
+			return new PlaneAngle31 { _raw = arcMinutes * OneArcMinuteRaw };
 		}
 
 		private static int FilterOutExtraTurnsFromDegrees(int degrees)

@@ -2,7 +2,7 @@ using NUnit.Framework;
 
 namespace SiTypesLib
 {
-	public class PlaneAngle32Tests
+	public class PlaneAngle31Tests
 	{
 		[TestCase(0)]
 		[TestCase(1)]
@@ -11,7 +11,7 @@ namespace SiTypesLib
 		[TestCase(359)]
 		public void FromDegreesToDegreesCheck(int degrees)
 		{
-			PlaneAngle32 angle = PlaneAngle32.FromDegrees(degrees);
+			PlaneAngle31 angle = PlaneAngle31.FromDegrees(degrees);
 			Assert.AreEqual(degrees, angle.Degrees);
 		}
 
@@ -25,7 +25,7 @@ namespace SiTypesLib
 		[TestCase(-540, 180)]
 		public void FromDegreesOverOneTurnToDegreesCheck(int degreesOverOneTurn, int expected)
 		{
-			PlaneAngle32 angle = PlaneAngle32.FromDegrees(degreesOverOneTurn);
+			PlaneAngle31 angle = PlaneAngle31.FromDegrees(degreesOverOneTurn);
 			Assert.AreEqual(expected, angle.Degrees);
 		}
 		
@@ -43,7 +43,7 @@ namespace SiTypesLib
 		[TestCase(21_599, 59)]
 		public void FromArcMinutesOverOneDegreeToArcMinutesCheck(int arcMinutes, int expected)
 		{
-			PlaneAngle32 angle = PlaneAngle32.FromArcMinutes(arcMinutes);
+			PlaneAngle31 angle = PlaneAngle31.FromArcMinutes(arcMinutes);
 			Assert.AreEqual(expected, angle.ArcMinutes);
 		}
 		
@@ -63,7 +63,7 @@ namespace SiTypesLib
 		[TestCase(21_660, 1)]
 		public void FromArcMinutesOverOneDegreeToDegreesCheck(int arcMinutes, int expected)
 		{
-			PlaneAngle32 angle = PlaneAngle32.FromArcMinutes(arcMinutes);
+			PlaneAngle31 angle = PlaneAngle31.FromArcMinutes(arcMinutes);
 			Assert.AreEqual(expected, angle.Degrees);
 		}
 	}
