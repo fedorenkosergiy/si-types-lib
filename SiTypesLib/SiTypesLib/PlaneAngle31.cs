@@ -10,6 +10,7 @@ namespace SiTypesLib
 		private const int OneArcMinuteRaw = OneArcSecondRaw * ArcSecondsPerArcMinute;
 		private const int OneDegreeRaw = OneArcSecondRaw * ArcSecondsPerDegree;
 		private const int OneTurnRaw = OneDegreeRaw * DegreesPerTurn;
+		private const double AccuracyInRadians = Math.PI * RadiansPerTurn / OneTurnRaw;
 
 		private int _raw;
 
@@ -18,6 +19,8 @@ namespace SiTypesLib
 		public int ArcMinutes => _raw / OneArcMinuteRaw % ArcMinutesPerDegree;
 
 		public int ArcSeconds => _raw / OneArcSecondRaw % ArcSecondsPerArcMinute;
+
+		public double Turns => (double)_raw / OneTurnRaw;
 
 		public static PlaneAngle31 FromDegrees(int value)
 		{
@@ -102,5 +105,7 @@ namespace SiTypesLib
 		}
 
 		public static PlaneAngle31 operator *(int a, PlaneAngle31 b) => b * a;
+
+		public static implicit operator double(PlaneAngle31 angle) => angle._raw * AccuracyInRadians;
 	}
 }

@@ -199,7 +199,7 @@ namespace SiTypesLib
 			ArgumentException? e = Assert.Throws<ArgumentException>(() => _ = a / notPositiveB);
 			Assert.AreEqual("b", e?.ParamName);
 		}
-		
+
 		[Test]
 		public void DivideByZero()
 		{
@@ -207,25 +207,46 @@ namespace SiTypesLib
 			PlaneAngle31 b = PlaneAngle31.FromDegrees(0);
 			DivideByZeroException? e = Assert.Throws<DivideByZeroException>(() => _ = a / b);
 		}
-		
-		[TestCase(0, 0, 0 )]
-		[TestCase(0, 1, 0 )]
+
+		[TestCase(0, 0, 0)]
+		[TestCase(0, 1, 0)]
 		[TestCase(10, 2, 20)]
-		[TestCase(359, 2, 358 )]
-		[TestCase(359, 359, 1 )]
-		[TestCase(359, 360, 0 )]
-		[TestCase(123, 360, 0 )]
-		[TestCase(100, 180, 0 )]
-		[TestCase(5, 90, 90 )]
-		[TestCase(5, -90, 270 )]
+		[TestCase(359, 2, 358)]
+		[TestCase(359, 359, 1)]
+		[TestCase(359, 360, 0)]
+		[TestCase(123, 360, 0)]
+		[TestCase(100, 180, 0)]
+		[TestCase(5, 90, 90)]
+		[TestCase(5, -90, 270)]
 		public void Multiplication(int degreesA, int b, int degreesExpected)
 		{
 			PlaneAngle31 a = PlaneAngle31.FromDegrees(degreesA);
 			PlaneAngle31 expected = PlaneAngle31.FromDegrees(degreesExpected);
 			PlaneAngle31 multiplication = a * b;
-			PlaneAngle31 alsoMultiplication =  b * a;
+			PlaneAngle31 alsoMultiplication = b * a;
 			Assert.AreEqual(expected, multiplication);
 			Assert.AreEqual(expected, alsoMultiplication);
+		}
+
+		[TestCase(0, 0.0)]
+		[TestCase(45, 0.125)]
+		[TestCase(72, 0.2)]
+		[TestCase(90, 0.25)]
+		[TestCase(120, 1.0/3.0)]
+		[TestCase(180, 0.5)]
+		[TestCase(270, 0.75)]
+		public void FromDegreesToTurns(int degrees, double turnsExpected)
+		{
+			PlaneAngle31 angle = PlaneAngle31.FromDegrees(degrees);
+			Assert.AreEqual(turnsExpected, angle.Turns);
+		}
+		
+		[TestCase(0, 0.0)]
+		[TestCase(180, Math.PI)]
+		public void FromDegreesRadians(int degrees, double radiansExpected)
+		{
+			double angle = PlaneAngle31.FromDegrees(degrees);
+			Assert.AreEqual(radiansExpected, angle);
 		}
 	}
 }
