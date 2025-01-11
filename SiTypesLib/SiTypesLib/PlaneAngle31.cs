@@ -1,12 +1,15 @@
-﻿using static SiTypesLib.PlaneAngleMath;
+﻿using System.Diagnostics;
+using static SiTypesLib.PlaneAngleMath;
 
 namespace SiTypesLib
 {
+	[DebuggerDisplay("{Degrees}° {ArcMinutes}' {ArcSeconds}\"")]
 	public struct PlaneAngle31
 	{
 		private const int OneArcSecondRaw = int.MaxValue / ArcSecondsPerTurn;
 		private const int OneArcMinuteRaw = OneArcSecondRaw * ArcSecondsPerArcMinute;
 		private const int OneDegreeRaw = OneArcSecondRaw * ArcSecondsPerDegree;
+		private const int OneTurnRaw = OneDegreeRaw * DegreesPerTurn;
 
 		private int _raw;
 
@@ -45,11 +48,19 @@ namespace SiTypesLib
 			int lessThenATurn = arcMinutes % ArcMinutesPerTurn;
 			return lessThenATurn < 0 ? lessThenATurn + ArcMinutesPerTurn : lessThenATurn;
 		}
-		
+
 		private static int FilterOutExtraTurnsFromArcSeconds(int arcSeconds)
 		{
 			int lessThenATurn = arcSeconds % ArcSecondsPerTurn;
 			return lessThenATurn < 0 ? lessThenATurn + ArcSecondsPerTurn : lessThenATurn;
+		}
+
+		public static PlaneAngle31 operator +(PlaneAngle31 a, PlaneAngle31 b)
+		{
+			int raw = a._raw - OneTurnRaw + b._raw;
+			if (raw < 0) raw += OneTurnRaw;
+
+			return new PlaneAngle31 { _raw = raw % OneTurnRaw };
 		}
 	}
 }

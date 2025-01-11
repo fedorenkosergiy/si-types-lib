@@ -28,7 +28,7 @@ namespace SiTypesLib
 			PlaneAngle31 angle = PlaneAngle31.FromDegrees(degreesOverOneTurn);
 			Assert.AreEqual(expected, angle.Degrees);
 		}
-		
+
 		[TestCase(61, 1)]
 		[TestCase(121, 1)]
 		[TestCase(-61, 59)]
@@ -46,7 +46,7 @@ namespace SiTypesLib
 			PlaneAngle31 angle = PlaneAngle31.FromArcMinutes(arcMinutes);
 			Assert.AreEqual(expected, angle.ArcMinutes);
 		}
-		
+
 		[TestCase(61, 1)]
 		[TestCase(121, 2)]
 		[TestCase(-61, 358)]
@@ -66,7 +66,7 @@ namespace SiTypesLib
 			PlaneAngle31 angle = PlaneAngle31.FromArcMinutes(arcMinutes);
 			Assert.AreEqual(expected, angle.Degrees);
 		}
-		
+
 		[TestCase(61, 1)]
 		[TestCase(121, 2)]
 		[TestCase(-61, 58)]
@@ -83,7 +83,7 @@ namespace SiTypesLib
 			PlaneAngle31 angle = PlaneAngle31.FromArcSeconds(arcSeconds);
 			Assert.AreEqual(expected, angle.ArcMinutes);
 		}
-		
+
 		[TestCase(61, 0)]
 		[TestCase(12100, 3)]
 		[TestCase(3600, 1)]
@@ -93,7 +93,7 @@ namespace SiTypesLib
 			PlaneAngle31 angle = PlaneAngle31.FromArcSeconds(arcSeconds);
 			Assert.AreEqual(expected, angle.Degrees);
 		}
-		
+
 		[TestCase(61, 1)]
 		[TestCase(121, 1)]
 		[TestCase(-61, 59)]
@@ -108,6 +108,26 @@ namespace SiTypesLib
 		{
 			PlaneAngle31 angle = PlaneAngle31.FromArcSeconds(arcSeconds);
 			Assert.AreEqual(expected, angle.ArcSeconds);
+		}
+
+		[TestCase(0, 0, 0)]
+		[TestCase(0, 10, 10)]
+		[TestCase(180, 180, 0)]
+		[TestCase(180, 181, 1)]
+		[TestCase(359, 359, 358)]
+		[TestCase(359, -359, 0)]
+		[TestCase(180, -180, 0)]
+		public void Sum(int degreesA, int degreesB, int degreesExpected)
+		{
+			PlaneAngle31 a = PlaneAngle31.FromDegrees(degreesA);
+			PlaneAngle31 b = PlaneAngle31.FromDegrees(degreesB);
+			PlaneAngle31 expected = PlaneAngle31.FromDegrees(degreesExpected);
+			PlaneAngle31 sum = a + b;
+			PlaneAngle31 alsoSum = b + a;
+			Assert.AreEqual(expected, sum);
+			Assert.AreEqual(expected, alsoSum);
+			Assert.Zero(sum.ArcMinutes);
+			Assert.Zero(sum.ArcSeconds);
 		}
 	}
 }
