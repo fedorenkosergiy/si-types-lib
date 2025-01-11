@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Globalization;
 using static SiTypesLib.PlaneAngleMath;
 
 namespace SiTypesLib
@@ -10,7 +11,7 @@ namespace SiTypesLib
 		private const int OneArcMinuteRaw = OneArcSecondRaw * ArcSecondsPerArcMinute;
 		private const int OneDegreeRaw = OneArcSecondRaw * ArcSecondsPerDegree;
 		private const int OneTurnRaw = OneDegreeRaw * DegreesPerTurn;
-		private const double AccuracyInRadians = Math.PI * RadiansPerTurn / OneTurnRaw;
+		private const double AccuracyInRadians = Math.PI * PiRadiansPerTurn / OneTurnRaw;
 
 		private int _raw;
 
@@ -21,6 +22,12 @@ namespace SiTypesLib
 		public int ArcSeconds => _raw / OneArcSecondRaw % ArcSecondsPerArcMinute;
 
 		public double Turns => (double)_raw / OneTurnRaw;
+
+		public double Radians => _raw * AccuracyInRadians;
+
+		public static PlaneAngle31 Zero => default;
+
+		public static PlaneAngle31 Pi { get; } = new() { _raw = DegreesPerPiRadian * OneDegreeRaw };
 
 		public static PlaneAngle31 FromDegrees(int value)
 		{
@@ -40,9 +47,20 @@ namespace SiTypesLib
 			return new PlaneAngle31 { _raw = arcSeconds * OneArcSecondRaw };
 		}
 
-		public override string ToString()
+		public override string ToString() => ToString(AngleStringFormat.RadiansDecimal);
+
+		public string ToString(AngleStringFormat format)
 		{
-			return _raw.ToString();
+			return format switch
+			{
+				AngleStringFormat.RadiansDecimal => Radians.ToString(CultureInfo.InvariantCulture),
+				AngleStringFormat.RadiansOverPi => (Radians / Math.PI).ToString(CultureInfo.InvariantCulture) + " π",
+				AngleStringFormat.DegreesDecimal =>
+					((double)_raw / OneDegreeRaw).ToString(CultureInfo.InvariantCulture),
+				AngleStringFormat.DegreesInteger => Degrees.ToString(),
+				AngleStringFormat.DegreesMinutesSeconds => $"{Degrees}° {ArcMinutes}' {ArcSeconds}\"",
+				_ => throw new NotSupportedException($"Not supported format {format}")
+			};
 		}
 
 		private static int FilterOutExtraTurnsFromDegrees(int degrees)
@@ -106,6 +124,6 @@ namespace SiTypesLib
 
 		public static PlaneAngle31 operator *(int a, PlaneAngle31 b) => b * a;
 
-		public static implicit operator double(PlaneAngle31 angle) => angle._raw * AccuracyInRadians;
+		public static implicit operator double(PlaneAngle31 angle) => angle.Radians;
 	}
 }

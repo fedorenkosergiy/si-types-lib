@@ -8,7 +8,7 @@ namespace SiTypesLib
 		public const int ArcSecondsPerDegree = ArcMinutesPerDegree * ArcSecondsPerArcMinute;
 		public const int ArcMinutesPerTurn = DegreesPerTurn * ArcMinutesPerDegree;
 		public const int ArcSecondsPerTurn = ArcMinutesPerTurn * ArcSecondsPerArcMinute;
-		public const int RadiansPerTurn = 2;
-		public const int DegreesPerRadian = 180;
+		public const int PiRadiansPerTurn = 2;
+		public const int DegreesPerPiRadian = 180;
 	}
 }
