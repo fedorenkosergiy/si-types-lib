@@ -14,17 +14,24 @@ namespace SiTypesLib
 
 		public int ArcMinutes => _raw / OneArcMinuteRaw % ArcMinutesPerDegree;
 
+		public int ArcSeconds => _raw / OneArcSecondRaw % ArcSecondsPerArcMinute;
+
 		public static PlaneAngle31 FromDegrees(int value)
 		{
 			int degrees = FilterOutExtraTurnsFromDegrees(value);
 			return new PlaneAngle31 { _raw = degrees * OneDegreeRaw };
 		}
 
-
 		public static PlaneAngle31 FromArcMinutes(int value)
 		{
 			int arcMinutes = FilterOutExtraTurnsFromArcMinutes(value);
 			return new PlaneAngle31 { _raw = arcMinutes * OneArcMinuteRaw };
+		}
+
+		public static PlaneAngle31 FromArcSeconds(int value)
+		{
+			int arcSeconds = FilterOutExtraTurnsFromArcSeconds(value);
+			return new PlaneAngle31 { _raw = arcSeconds * OneArcSecondRaw };
 		}
 
 		private static int FilterOutExtraTurnsFromDegrees(int degrees)
@@ -37,6 +44,12 @@ namespace SiTypesLib
 		{
 			int lessThenATurn = arcMinutes % ArcMinutesPerTurn;
 			return lessThenATurn < 0 ? lessThenATurn + ArcMinutesPerTurn : lessThenATurn;
+		}
+		
+		private static int FilterOutExtraTurnsFromArcSeconds(int arcSeconds)
+		{
+			int lessThenATurn = arcSeconds % ArcSecondsPerTurn;
+			return lessThenATurn < 0 ? lessThenATurn + ArcSecondsPerTurn : lessThenATurn;
 		}
 	}
 }
