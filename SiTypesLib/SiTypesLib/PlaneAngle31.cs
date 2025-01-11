@@ -35,6 +35,12 @@ namespace SiTypesLib
 			return new PlaneAngle31 { _raw = degrees * OneDegreeRaw };
 		}
 
+		public static PlaneAngle31 FromDegrees(double value)
+		{
+			double degrees = FilterOutExtraTurnsFromDegrees(value);
+			return new PlaneAngle31 { _raw = (int)(degrees * OneDegreeRaw) };
+		}
+
 		public static PlaneAngle31 FromArcMinutes(int value)
 		{
 			int arcMinutes = FilterOutExtraTurnsFromArcMinutes(value);
@@ -66,6 +72,12 @@ namespace SiTypesLib
 		private static int FilterOutExtraTurnsFromDegrees(int degrees)
 		{
 			int lessThenATurn = degrees % DegreesPerTurn;
+			return lessThenATurn < 0 ? lessThenATurn + DegreesPerTurn : lessThenATurn;
+		}
+
+		private static double FilterOutExtraTurnsFromDegrees(double degrees)
+		{
+			double lessThenATurn = degrees % DegreesPerTurn;
 			return lessThenATurn < 0 ? lessThenATurn + DegreesPerTurn : lessThenATurn;
 		}
 
@@ -125,5 +137,7 @@ namespace SiTypesLib
 		public static PlaneAngle31 operator *(int a, PlaneAngle31 b) => b * a;
 
 		public static implicit operator double(PlaneAngle31 angle) => angle.Radians;
+
+		public static implicit operator PlaneAngle31(double radians) => FromDegrees(radians * DegreesPerRadian);
 	}
 }

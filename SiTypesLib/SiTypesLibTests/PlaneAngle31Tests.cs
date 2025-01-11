@@ -232,7 +232,7 @@ namespace SiTypesLib
 		[TestCase(45, 0.125)]
 		[TestCase(72, 0.2)]
 		[TestCase(90, 0.25)]
-		[TestCase(120, 1.0/3.0)]
+		[TestCase(120, 1.0 / 3.0)]
 		[TestCase(180, 0.5)]
 		[TestCase(270, 0.75)]
 		public void FromDegreesToTurns(int degrees, double turnsExpected)
@@ -240,13 +240,41 @@ namespace SiTypesLib
 			PlaneAngle31 angle = PlaneAngle31.FromDegrees(degrees);
 			Assert.AreEqual(turnsExpected, angle.Turns);
 		}
-		
+
 		[TestCase(0, 0.0)]
 		[TestCase(180, Math.PI)]
-		public void FromDegreesRadians(int degrees, double radiansExpected)
+		public void FromDegreesToRadians(int degrees, double radiansExpected)
 		{
 			double angle = PlaneAngle31.FromDegrees(degrees);
 			Assert.AreEqual(radiansExpected, angle);
+		}
+
+		[TestCase(-0.5 * Math.PI, 270)]
+		[TestCase(0.0, 0)]
+		[TestCase(0.5 * Math.PI, 90)]
+		[TestCase(Math.PI, 180)]
+		[TestCase(2.0 * Math.PI, 0)]
+		public void FromRadiansToDegrees(double radians, int degreesExpected)
+		{
+			PlaneAngle31 angle = radians;
+			Assert.AreEqual(degreesExpected, angle.Degrees);
+		}
+
+
+		[TestCase(10.5, 10, 30, 0)]
+		[TestCase(10.55, 10, 33, 0)]
+		[TestCase(10.555, 10, 33, 18)]
+		[TestCase(44.670623, 44, 40, 14)]
+		[TestCase(33.552576, 33, 33, 9)]
+		[TestCase(-9.25, 350, 45, 0)]
+		[TestCase(-369.25, 350, 45, 0)]
+		public void FromDegreesCheck(double degrees, int degreesExpected, int arcMinutesExpected,
+			int arcSecondsExpected)
+		{
+			PlaneAngle31 angle = PlaneAngle31.FromDegrees(degrees);
+			Assert.AreEqual(degreesExpected, angle.Degrees);
+			Assert.AreEqual(arcMinutesExpected, angle.ArcMinutes);
+			Assert.AreEqual(arcSecondsExpected, angle.ArcSeconds);
 		}
 	}
 }
