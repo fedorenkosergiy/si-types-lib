@@ -207,5 +207,25 @@ namespace SiTypesLib
 			PlaneAngle31 b = PlaneAngle31.FromDegrees(0);
 			DivideByZeroException? e = Assert.Throws<DivideByZeroException>(() => _ = a / b);
 		}
+		
+		[TestCase(0, 0, 0 )]
+		[TestCase(0, 1, 0 )]
+		[TestCase(10, 2, 20)]
+		[TestCase(359, 2, 358 )]
+		[TestCase(359, 359, 1 )]
+		[TestCase(359, 360, 0 )]
+		[TestCase(123, 360, 0 )]
+		[TestCase(100, 180, 0 )]
+		[TestCase(5, 90, 90 )]
+		[TestCase(5, -90, 270 )]
+		public void Multiplication(int degreesA, int b, int degreesExpected)
+		{
+			PlaneAngle31 a = PlaneAngle31.FromDegrees(degreesA);
+			PlaneAngle31 expected = PlaneAngle31.FromDegrees(degreesExpected);
+			PlaneAngle31 multiplication = a * b;
+			PlaneAngle31 alsoMultiplication =  b * a;
+			Assert.AreEqual(expected, multiplication);
+			Assert.AreEqual(expected, alsoMultiplication);
+		}
 	}
 }

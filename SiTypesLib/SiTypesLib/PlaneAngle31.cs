@@ -79,16 +79,28 @@ namespace SiTypesLib
 		public static PlaneAngle31 operator -(PlaneAngle31 angle)
 		{
 			int raw = -angle._raw + OneTurnRaw;
-			
-			return new PlaneAngle31 { _raw = raw % OneTurnRaw};
+
+			return new PlaneAngle31 { _raw = raw % OneTurnRaw };
 		}
-		
+
 		public static int operator /(PlaneAngle31 a, PlaneAngle31 b) => a._raw / b._raw;
+
 		public static PlaneAngle31 operator /(PlaneAngle31 a, int b)
 		{
 			const string msg = "An angle can not be divided by a non positive number";
 			if (b <= 0) throw new ArgumentException(msg, nameof(b));
 			return new PlaneAngle31 { _raw = a._raw / b };
 		}
+
+		public static PlaneAngle31 operator *(PlaneAngle31 a, int b)
+		{
+			long raw = a._raw * (long)b;
+			raw %= OneTurnRaw;
+			if (raw < 0) raw += OneTurnRaw;
+
+			return new PlaneAngle31 { _raw = (int)raw };
+		}
+
+		public static PlaneAngle31 operator *(int a, PlaneAngle31 b) => b * a;
 	}
 }
